@@ -3,7 +3,7 @@
 //  C++ implementation of Eriksen model
 //
 //  Original implementation by Nick Yeung
-//  Changes by Sander Nieuwenhuis & Roy de Kleijn on 1/2/12.
+//  Changes by Sander Nieuwenhuis & Roy de Kleijn
 //
 //
 
@@ -218,8 +218,6 @@ static inline void loadBar(int x, int n, int r, int w)
 }
 
 
-
-
 /************************************ RUN_SIMS FUNCTION *************************************/
 
 void run_sim(int sim, int num_trials)
@@ -398,7 +396,6 @@ void run_sim(int sim, int num_trials)
 	gratton_effect_ER+=((gratton_ER[1][0]/gratton_count[1][0])-(gratton_ER[1][1]/gratton_count[1][1]));
 	printf("Gratton_RT = %5.2f Gratton_ER = %5.2f\n\n", gratton_effect_RT, (gratton_effect_ER*100));
     
-    
     /* Output mean RT for congruent and incongruent trials (RdK) */
 
     printf("\n");
@@ -406,15 +403,12 @@ void run_sim(int sim, int num_trials)
     printf("Mean incongruent RT: %5.0f ms\n", (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10);
     printf("Congruence effect:   %5.0f ms\n\n",  (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10  - (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10    );
     
-    
-    
 	/* Close data file */
 	fclose(LRP_OUT);
     fclose(ATTN1_OUT);
     fclose(ATTN2_OUT);
     fclose(ATTN3_OUT);
 
-    
 }
 
 
