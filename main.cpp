@@ -76,6 +76,7 @@ int units_to_prime = 2; 		// This number specifies which row with units to prime
 int onset_delay; 			// Spencer & Coles delayed stimulus presentation by 13 cycles into the RT
 int attn_delay;             // Delay external input to center attention unit (RdK)
 int cont_proc;
+int fixedAttention = 0;     // Set attention activation to fixed values? (standard no)
 
 float LRP_signal[RUN_CYCLES], corrRAct[RUN_CYCLES], incorrRAct[RUN_CYCLES];
 
@@ -152,7 +153,7 @@ int main()
         printf("How many trials per simulation: "); scanf("%d", &num_trials);
         
         // Added to make threshold adjustable (RdK)
-        printf("Enter new threshold value if necessary (default = .18): "); scanf("%f", &threshold_H);
+        printf("Enter new threshold value if necessary (default = .18, N&dK = .25): "); scanf("%f", &threshold_H);
         threshold_S = threshold_H;
         
         for(sim=0; sim<sims; sim++)
@@ -234,13 +235,13 @@ void run_sim(int sim, int num_trials)
     
     FILE *ATTN1_OUT; char ATTN1_filename[10]; sprintf(ATTN1_filename, "ATTN1.%d", sim);
     if ((ATTN1_OUT=fopen(ATTN1_filename, "w"))==NULL) { printf("Cannot open Raw_data file.\n"); exit(1); }
-
+    
     FILE *ATTN2_OUT; char ATTN2_filename[10]; sprintf(ATTN2_filename, "ATTN2.%d", sim);
     if ((ATTN2_OUT=fopen(ATTN2_filename, "w"))==NULL) { printf("Cannot open Raw_data file.\n"); exit(1); }
-
+    
     FILE *ATTN3_OUT; char ATTN3_filename[10]; sprintf(ATTN3_filename, "ATTN3.%d", sim);
     if ((ATTN3_OUT=fopen(ATTN3_filename, "w"))==NULL) { printf("Cannot open Raw_data file.\n"); exit(1); }
-
+    
     
 	corr_count=err_count=error_RT=correct_RT=0;
     
@@ -258,7 +259,7 @@ void run_sim(int sim, int num_trials)
 	for(trial=0; trial<num_trials+WARM_UPS; trial++)
 	{
         loadBar(trial,num_trials,5,10); // Show progress bar
-                
+        
 		// Decide the target and condition for the trial
 		if (irand(4)>1) target = H; else target = S;
 		if (irand(4)>1) condition = CM; else condition = IC;
@@ -318,7 +319,7 @@ void run_sim(int sim, int num_trials)
 				fprintf(LRP_OUT, "%5.3f\t", LRP_signal[cycle]);
             
             fprintf(LRP_OUT, "\n");
-
+            
             
             fprintf(ATTN1_OUT, "%d\t%d\t%d\t%d\t%5.3d\t", condition, target, (int) trial_results[0],
                     (int) trial_results[1], (int) trial_results[2]);
@@ -397,7 +398,7 @@ void run_sim(int sim, int num_trials)
 	printf("Gratton_RT = %5.2f Gratton_ER = %5.2f\n\n", gratton_effect_RT, (gratton_effect_ER*100));
     
     /* Output mean RT for congruent and incongruent trials (RdK) */
-
+    
     printf("\n");
     printf("Mean congruent RT:   %5.0f ms\n", (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10);
     printf("Mean incongruent RT: %5.0f ms\n", (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10);
@@ -408,7 +409,7 @@ void run_sim(int sim, int num_trials)
     fclose(ATTN1_OUT);
     fclose(ATTN2_OUT);
     fclose(ATTN3_OUT);
-
+    
 }
 
 
@@ -527,10 +528,12 @@ void run_cycles(float the_inputs[NUM_UNITS+2], int max_cycles, int primeOrReal, 
                 activation[i]=MIN_ACT;
         }
         
-        // RdK: hardcode activations for attention units
-//        activation[8]=-0.06+noise_val*getNoise();
-//        activation[9]=0.35+noise_val*getNoise();
-//        activation[10]=-0.06+noise_val*getNoise();
+        if(fixedAttention==1) // RdK: hardcode activations for attention units
+        {
+            activation[8]=-0.06+noise_val*getNoise();
+            activation[9]=0.35+noise_val*getNoise();
+            activation[10]=-0.06+noise_val*getNoise();
+        }
         
         
         if(primeOrReal==1)
@@ -597,6 +600,5 @@ int irand(int n)
 {
 	return rand()%n;
 }
-
 
 
