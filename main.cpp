@@ -197,7 +197,7 @@ static inline void loadBar(int x, int n, int r, int w)
     // Only update r times.
     if ( x % (n/r) != 0 ) return;
     
-    // Calculuate the ratio of complete-to-incomplete.
+    // Calculate the ratio of complete-to-incomplete.
     float ratio = x/(float)n;
     int   c     = ratio * w;
     
