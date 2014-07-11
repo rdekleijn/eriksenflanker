@@ -76,7 +76,7 @@ int units_to_prime = 2; 		// This number specifies which row with units to prime
 int onset_delay; 			// Spencer & Coles delayed stimulus presentation by 13 cycles into the RT
 int attn_delay;             // Delay external input to center attention unit (RdK)
 int cont_proc;
-int fixedAttention = 0;     // Set attention activation to fixed values? (standard no)
+int attentionType = 2;     // Set attention activation to fixed values? (0 = default, 1 = fixed values, 2 = modified during warning period)
 
 float LRP_signal[RUN_CYCLES], corrRAct[RUN_CYCLES], incorrRAct[RUN_CYCLES];
 
@@ -510,6 +510,12 @@ void run_cycles(float the_inputs[NUM_UNITS+2], int max_cycles, int primeOrReal, 
                 else
                     net_input[i]=new_input[i];
                 
+                if(attentionType==2 && i>7 && i<11) // RdK: low attention input during warning period
+                {
+                    net_input[i]*=1;
+                }
+
+                
                 net_input[i]+=noise_val*getNoise();
                 net_input[i]*=unit_gain[i];
             }
@@ -528,13 +534,12 @@ void run_cycles(float the_inputs[NUM_UNITS+2], int max_cycles, int primeOrReal, 
                 activation[i]=MIN_ACT;
         }
         
-        if(fixedAttention==1) // RdK: hardcode activations for attention units
+        if(attentionType==1) // RdK: fixed values
         {
             activation[8]=-0.06+noise_val*getNoise();
             activation[9]=0.35+noise_val*getNoise();
             activation[10]=-0.06+noise_val*getNoise();
         }
-        
         
         if(primeOrReal==1)
         {
