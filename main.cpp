@@ -76,7 +76,7 @@ int units_to_prime = 2; 		// This number specifies which row with units to prime
 int onset_delay; 			// Spencer & Coles delayed stimulus presentation by 13 cycles into the RT
 int attn_delay;             // Delay external input to center attention unit (RdK)
 int cont_proc;
-int attentionType = 2;     // Set attention activation to fixed values? (0 = default, 1 = fixed values, 2 = modified during warning period)
+int attentionType = 2;     // Set attention activation to fixed values? (0 = default, 1 = fixed values, 2 = low during warning period)
 
 float LRP_signal[RUN_CYCLES], corrRAct[RUN_CYCLES], incorrRAct[RUN_CYCLES];
 
@@ -400,9 +400,9 @@ void run_sim(int sim, int num_trials)
     /* Output mean RT for congruent and incongruent trials (RdK) */
     
     printf("\n");
-    printf("Mean congruent RT:   %5.0f ms\n", (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10);
-    printf("Mean incongruent RT: %5.0f ms\n", (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10);
-    printf("Congruence effect:   %5.0f ms\n\n",  (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10  - (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10    );
+    printf("Mean congruent RT:   %5.0f ms (%.0f ms)\n", (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10, ((((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10) + 75);
+    printf("Mean incongruent RT: %5.0f ms (%.0f ms)\n", (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10, ((((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10 + 75));
+    printf("Congruence effect:   %5.0f ms\n\n",  (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10  - (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10);
     
 	/* Close data file */
 	fclose(LRP_OUT);
