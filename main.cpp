@@ -402,7 +402,11 @@ void run_sim(int sim, int num_trials)
     printf("\n");
     printf("Mean congruent RT:   %5.0f ms (%.0f ms)\n", (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10, ((((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10) + 75);
     printf("Mean incongruent RT: %5.0f ms (%.0f ms)\n", (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10, ((((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10 + 75));
-    printf("Congruence effect:   %5.0f ms\n\n",  (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10  - (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10);
+    printf("Congruence effect:   %5.0f ms\n",  (((sum_RT[0][1]/RT_count[0][1])+(sum_RT[1][1]/RT_count[1][1]))/2)*10  - (((sum_RT[0][0]/RT_count[0][0])+(sum_RT[1][0]/RT_count[1][0]))/2)*10);
+    printf("--------------------------------------\n");
+    printf("Congruent error rate:   %5.1f\n", ((100*(error_count[0][0]/trial_count[0][0])) + (100*(error_count[1][0]/trial_count[1][0]))) / 2);
+    printf("Incongruent error rate: %5.1f\n\n", ((100*(error_count[0][1]/trial_count[0][1])) + (100*(error_count[1][1]/trial_count[1][1]))) / 2);
+
     
 	/* Close data file */
 	fclose(LRP_OUT);
