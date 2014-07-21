@@ -50,8 +50,8 @@ float estr = 0.4;
 float ext_sH = 0.15 + STIM_H_BIAS; 	// Signal - i.e. stimulus presented
 float ext_sS = .15; 			// Signal - i.e. stimulus presented
 float ext_nH = 0.0; float ext_nS = 0.0;	// Noise - i.e. stimulus not presented
-float ext_C = 0.2;
-float ext_F = 0;
+float ext_C = 0.2; // External input to center attention (default .2)
+float ext_F = 0; // External input to flanker attention
 float ext_rH = .03; float ext_rS = .03;
 
 // Unit gains - default value of 1.0 for all
@@ -128,7 +128,9 @@ int main()
             
             estr=0.28;          // default = 0.28
             ext_C=0.23; 		// default = 0.23
+            ext_C*=1;      // modify external input to center attention
             ext_F=0.0;
+            ext_F=ext_C*1;      // modify external input to flanker attention
             ext_sH = ext_sS = 0.14;	 // default = 0.14
             ext_nH = ext_nS = 0.0;	// default = 0.0
         }
